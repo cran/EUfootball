@@ -1,0 +1,13 @@
+dd21dfb15f06f0263da912da89f9cce2 *DESCRIPTION
+dc21c19f0d6968ee25d441b2cf46017d *NAMESPACE
+bc93c16af477ae2d482a6f8e70f4cad9 *NEWS.md
+75793d6500ddfc315cfe37413acb2da3 *R/Matches-data.R
+6ab5460d1b1dd94a0f4ca5de9dbb5b24 *build/vignette.rds
+de802eedea87431ce9ff81d679c0c84f *data/Matches.rdata
+8f62ec38de08501c893eeffc817b0512 *inst/doc/EUfootball.R
+dfa242795bebca0ae395455a56674a9e *inst/doc/EUfootball.Rmd
+0d79c6452b00e5f5be9ad243ad608458 *inst/doc/EUfootball.html
+97abd8ef02ef5abde343f0cc7dc93905 *man/Matches.Rd
+73aba4bf18f83b9d998d53a18056ca47 *tests/testthat.R
+f4f285fff7b934174234202a7f9a7ca1 *tests/testthat/test-tests.R
+dfa242795bebca0ae395455a56674a9e *vignettes/EUfootball.Rmd

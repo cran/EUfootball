@@ -1,0 +1,77 @@
+---
+title: "EUfootball"
+#output: rmarkdown::html_vignette
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{EUfootball}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(EUfootball)
+head(Matches)
+```
+
+
++ **Elo** rating of each team. Calculated and gathered from \url{http://clubelo.com/} 
+(July 2021; Schiefler 2015). It ranges from 1223 (FC Dordrecht in 2014) to 2106 (Barcelona in 2012)
+and can be interpreted via the differences in rating, denoted by $d = \text{Elo}_\text{home} - \text{Elo}_\text{away}$. 
+The probability for the home team to win is then defined as $\pi = P(\text{HomeWin}) = 1 / \left((10^{\left(\frac{-d}{400}\right)}+1\right)$ 
+with ties being counted as a half win (Schiefler 2015. Equal Elo ratings will lead to a probability of 0.5. \\
+After each match, the team's Elo scores are adjusted by $\Delta\text{Elo} = (R - \pi) \cdot 20$ with $R$ 
+corresponding to the results from each team's point of view (1 for a win, 0.5 for a tie and 0 for a loss). 
+The factor of 20 is a weight index chosen by Schiefler (2015). With this scheme, unlikely results like an 
+underdog's win will result in bigger Elo changes. \\
+These (or similar) types of Elo rankings are commonly used in competitive sports. It was originally 
+proposed by Arpad Emmerich Elo (1961) to rank the ability of chess players.
+
++ **Market Value** (MV) of a team. Determined and gathered from \url{transfermarkt.com} (July 2021). 
+Given in million euro and ranges from 2.8 (FC Dordrecht in 2014) to 1,300 (Manchester City in 2019/20). The 
+market values of \url{transfermarkt.com} are a community project, where each player's market value is discussed 
+and determined by (known or rumoured) transfer fees and the player's standing in his team. The team's value 
+is the simple sum of its current players. The values are updated twice a month to timely include transferred players. 
+The earliest available data is from 2010-11-01, so missing values occur for the first matchdays of the season 2010/11. 
+As the market values are growing over time, we are transforming the raw values to shares of the league's market 
+value (MVHomeT, MVGuestT), using each matchday's sum as a total market value. Missing values are imputed as averages. With this approach, 
+the dominance of single teams can be modelled over the years without a bias by inflation.
+
++ **Bookmaker Odds** averaged from multiple bookmaker companies. Collected from \url{oddsportal.com} 
+(July 2021) and averaged over six different bookmakers in 2010 up to 
+12 bookmakers in 2019. The odds can be transformed to probabilities by inverting them to 
+$p_j = \frac{1}{\text{odds}_{j}}, j\in\{1,X,2\}$. As these do not sum up to 1 (due to bookmakers' margins), 
+we adjust these by $\tilde{p}_j = \frac{p_j}{p_{1}+p_{X}+p_{2}}$ with $p_1$ and $p_2$ corresponding to 
+wins of the first or second named team and $p_{X}$ to a tie. With this, we implicitly assume an evenly 
+distributed margin across these outcomes.
+
++ **Promoted** status of a team. Indicates for each team, whether it has been promoted to 
+the division immediately before the current season. This is used to include the ``rookie status''.
+
++ **Titleholder** from last season. Indicates for each team whether it is the league's current titleholder.
+
++ **CupTitleholder** from last season. Indicates for each team whether it is the titleholder 
+of the national cup (DFB-Pokal in Germany, FA CUP in England, Copa del Rey in Spain, Coppa Italia, 
+Coupe de France, KNVB Cup in the Netherlands, Turkish Cup). 
+
++ **FormGoals3** is the number of goals scored by the corresponding team in its last three 
+matches. Easily calculated for matchdays 4 and later. For earlier matchdays the last seasons average 
+of all teams $\bar{g}$ is used.
+
++ + matchday 1: FormGoals3 = $\bar{g}$
++ + matchday 2: FormGoals3 = $\frac{1}{3} g_{\text{matchday1}} + \frac{2}{3} \bar{g}$
++ + matchday 3: FormGoals3 = $\frac{1}{3} g_{\text{matchday1}} + \frac{1}{3} g_{\text{matchday2}} + \frac{1}{3} \bar{g}$
+In rare cases, when a result is missing in the last 3 matches, the average of the remaining 2 matches is used.
+
+
+References:
+
+Schiefler, L. (2015). Football Club Elo Ratings. \url{http://clubelo.com/} [Accessed: July 2021]
+
+Elo, A.\ E. (1961). New uscf rating system. Chess Life 16, 160-161.
